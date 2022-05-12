@@ -6,37 +6,59 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JMenu;
+import javax.swing.JScrollPane;
+
+import dam.control.RestaurantControl;
+
+import java.awt.BorderLayout;
 
 public class VMain extends JFrame {
 	private static final long serialVersionUID = -3316608643557707196L;
 	
-	public static final int ANCHO = 800;
+	public static final int ANCHO = 1000;
 	public static final int ALTO = 800;
+	
+	public static final String MNTM_CONSULTA = "Consulta de restaurantes";
+	public static final String MNTM_REGISTRO = "Registro de restaurantes";
+	public static final String MNTM_MODIFCACION = "Modificacion de Restaurantes";
+	public static final String MN_MANTENIMIENTO = "Mantenimiento de Restaurantes";
+	public static final String MN_SALIR = "Salir";
+	
+	private JMenuItem mntmConsulta;
+	private JMenuItem mntmRegistro;
+	private JScrollPane scrpContenedor;
+	private JMenuItem mntmModificacion;
+	private JMenu mnMantenimiento;
 	
 	
 	public VMain() {
+		
 		setTitle("GUIA MICHELIN");
-		getContentPane().setLayout(null);
 		setSize(ANCHO, ALTO);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Mantenimiento Restaurantes");
-		menuBar.add(mnNewMenu);
+		mnMantenimiento = new JMenu(MN_MANTENIMIENTO);
+		menuBar.add(mnMantenimiento);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Consulta de Restaurantes");
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mntmConsulta = new JMenuItem(MNTM_CONSULTA);
+		mnMantenimiento.add(mntmConsulta);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registro de Restaurantes");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		mntmRegistro = new JMenuItem(MNTM_REGISTRO);
+		mnMantenimiento.add(mntmRegistro);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Modificacion de Restaurantes");
-		mnNewMenu.add(mntmNewMenuItem_3);
+		mntmModificacion = new JMenuItem(MNTM_MODIFCACION);
+		mnMantenimiento.add(mntmModificacion);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Salir");
-		menuBar.add(mntmNewMenuItem);
+		JMenuItem mntmSalir = new JMenuItem(MN_SALIR);
+		menuBar.add(mntmSalir);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		scrpContenedor = new JScrollPane();
+		getContentPane().add(scrpContenedor, BorderLayout.CENTER);
 		
 		centrarVentana();
 	}
@@ -55,5 +77,18 @@ public class VMain extends JFrame {
 	
 	public void hacerVisible() {
 		setVisible(true);
+	}
+	
+	public void cargarPanel(JPanel panel) {
+		scrpContenedor.setViewportView(panel);
+		
+	}
+	
+	public void setControlador(RestaurantControl c) {
+		mntmConsulta.addActionListener(c);
+		mntmModificacion.addActionListener(c);
+		mntmRegistro.addActionListener(c);
+		
+		mnMantenimiento.addActionListener(c);
 	}
 }
