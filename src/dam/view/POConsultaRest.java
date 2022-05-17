@@ -34,24 +34,24 @@ public class POConsultaRest extends JPanel {
 		
 		JLabel lblRegion = new JLabel("Regi\u00F3n:");
 		lblRegion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblRegion.setBounds(55, 151, 55, 21);
+		lblRegion.setBounds(179, 149, 55, 21);
 		add(lblRegion);
 		
 		cmbxRegion = new JComboBox();
-		cmbxRegion.setBounds(120, 151, 174, 21);
+		cmbxRegion.setBounds(259, 149, 174, 21);
 		add(cmbxRegion);
 		
 		JLabel lblDistincion = new JLabel("Distinci\u00F3n:");
 		lblDistincion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDistincion.setBounds(371, 150, 72, 22);
+		lblDistincion.setBounds(535, 150, 72, 22);
 		add(lblDistincion);
 		
 		cmbxDistincion = new JComboBox();
-		cmbxDistincion.setBounds(453, 150, 174, 22);
+		cmbxDistincion.setBounds(617, 150, 174, 22);
 		add(cmbxDistincion);
 		
 		btnConsultar = new JButton(BTN_CONSULTAR);
-		btnConsultar.setBounds(301, 215, 103, 34);
+		btnConsultar.setBounds(428, 215, 128, 47);
 		add(btnConsultar);
 		
 	}
