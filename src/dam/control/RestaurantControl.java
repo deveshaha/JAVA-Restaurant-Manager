@@ -3,6 +3,7 @@ package dam.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
@@ -46,6 +47,10 @@ public class RestaurantControl implements ActionListener {
 					System.exit(0);
 				}
 				
+			}
+		} else if (e.getSource() instanceof JButton) {
+			if (e.getActionCommand().equals(POConsultaRest.BTN_CONSULTAR)) {
+				poConsultaRest.setVisible(true);
 			}
 		}
 		

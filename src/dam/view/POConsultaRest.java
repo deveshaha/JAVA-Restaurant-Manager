@@ -3,8 +3,16 @@ package dam.view;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import dam.control.RestaurantControl;
+import dam.model.Restaurante;
 
 public class POConsultaRest extends JPanel {
 	private static final long serialVersionUID = -5098459323820994656L;
@@ -17,6 +25,10 @@ public class POConsultaRest extends JPanel {
 	private JButton btnConsultar;
 	private JComboBox cmbxRegion;
 	private JComboBox cmbxDistincion;
+	private JTable tablaRest;
+	private DefaultTableModel dtm;
+	private JScrollPane scrpTabla;
+	private JButton btnEliminar;
 	
 	public POConsultaRest() {
 		setSize(RESTA_ANCHO, RESTA_ALTO);
@@ -51,8 +63,71 @@ public class POConsultaRest extends JPanel {
 		add(cmbxDistincion);
 		
 		btnConsultar = new JButton(BTN_CONSULTAR);
-		btnConsultar.setBounds(428, 215, 128, 47);
+		btnConsultar.setBounds(428, 203, 128, 47);
 		add(btnConsultar);
 		
+		scrpTabla = new JScrollPane();
+		scrpTabla.setBounds(70, 273, 845, 437);
+		add(scrpTabla);
+		
+		tablaRest = new JTable();
+		scrpTabla.setViewportView(tablaRest);
+		
+		btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.setBounds(768, 727, 128, 47);
+		add(btnEliminar);
+		
+		configurarTabla();
+		
+	}
+	
+	private void configurarTabla() {
+		dtm = new DefaultTableModel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		tablaRest.setModel(dtm);
+		
+		dtm.addColumn("Nombre");
+		dtm.addColumn("Ciudad");
+		dtm.addColumn("Distincion");
+		dtm.addColumn("Cocina");
+		dtm.addColumn("Precio");
+		
+	}
+	
+	public void rellenarTabla(ArrayList<Restaurante> lista) {
+		dtm.setRowCount(0);
+		
+		Object[] fila = new Object[5];
+		
+		for (Restaurante res : lista) {
+			fila[0] = res.getNombre();
+			fila[1] = res.getCiudad();
+			fila[2] = res.getDistincion();
+			fila[3] = res.getCocina();
+			fila[4] = res.getPrecioMax();
+			
+			dtm.addRow(fila);
+			
+		}
+		
+	}
+	
+	public void mostrarTabla(boolean b) {
+		scrpTabla.setVisible(b);
+	}
+	
+	public void setControlador(RestaurantControl c) {
+		btnConsultar.addActionListener(c);
+		btnEliminar.addActionListener(c);
 	}
 }

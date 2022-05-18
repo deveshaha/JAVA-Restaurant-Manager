@@ -26,6 +26,68 @@ public class Restaurante {
 		this.telefono = telefono;
 		this.web = web;
 	}
+	
+	
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public String getRegion() {
+		return region;
+	}
+
+
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+
+
+	public int getDistincion() {
+		return distincion;
+	}
+
+
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+
+
+	public double getPrecioMin() {
+		return precioMin;
+	}
+
+
+
+	public double getPrecioMax() {
+		return precioMax;
+	}
+
+
+
+	public String getCocina() {
+		return cocina;
+	}
+
+
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+
+
+	public String getWeb() {
+		return web;
+	}
+
+
 
 	@Override
 	public String toString() {
