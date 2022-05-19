@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import dam.control.RestaurantControl;
+
 public class POModificarRest extends JPanel{
 	
 	private static final int RESTA_ANCHO = VMain.ANCHO -15;
@@ -148,5 +150,10 @@ public class POModificarRest extends JPanel{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(504, 549, 139, 39);
 		add(btnCancelar);
+	}
+
+	public void setControlador(RestaurantControl c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

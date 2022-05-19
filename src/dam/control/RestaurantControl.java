@@ -2,11 +2,14 @@ package dam.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import dam.model.Restaurante;
+import dam.persistencia.RestaurantePersistencia;
 import dam.view.POConsultaRest;
 import dam.view.POModificarRest;
 import dam.view.PORegistroRest;
@@ -14,17 +17,21 @@ import dam.view.VMain;
 
 public class RestaurantControl implements ActionListener {
 	
+	private static ArrayList<Restaurante> listaRestaurantes;
 	private VMain vMain;
 	private POConsultaRest poConsultaRest;
 	private PORegistroRest poRegistroRest;
 	private POModificarRest pomodificarRest;
+	private RestaurantePersistencia persistencia;
 	
 	public RestaurantControl(VMain vMain, POConsultaRest poConsultaRest, PORegistroRest poRegistroRest,
-			POModificarRest pomodificarRest) {
+			POModificarRest pomodificarRest, RestaurantePersistencia persistencia) {
 		this.vMain = vMain;
 		this.poConsultaRest = poConsultaRest;
 		this.poRegistroRest = poRegistroRest;
 		this.pomodificarRest = pomodificarRest;
+		this.persistencia = persistencia;
+		listaRestaurantes = new ArrayList<Restaurante>();
 	}
 
 	@Override
@@ -50,7 +57,10 @@ public class RestaurantControl implements ActionListener {
 			}
 		} else if (e.getSource() instanceof JButton) {
 			if (e.getActionCommand().equals(POConsultaRest.BTN_CONSULTAR)) {
-				poConsultaRest.setVisible(true);
+				listaRestaurantes = persistencia.consultarTabla();
+				poConsultaRest.rellenarTabla(listaRestaurantes);
+				poConsultaRest.mostrarTabla(true);
+				System.out.println("ytes");
 			}
 		}
 		

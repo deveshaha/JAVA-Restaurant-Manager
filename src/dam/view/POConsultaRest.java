@@ -2,10 +2,13 @@ package dam.view;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
+import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dam.control.RestaurantControl;
 import dam.model.Restaurante;
+import dam.persistencia.RestaurantePersistencia;
 
 public class POConsultaRest extends JPanel {
 	private static final long serialVersionUID = -5098459323820994656L;
@@ -21,9 +25,11 @@ public class POConsultaRest extends JPanel {
 	private static final int RESTA_ALTO = VMain.ALTO -15;
 	
 	public static final String BTN_CONSULTAR = "CONSULTAR";
+	public static final String REGION = "TODAS";
 	
 	private JButton btnConsultar;
-	private JComboBox cmbxRegion;
+	private JComboBox<String> cmbxRegion;
+	private DefaultComboBoxModel<String> cmbxModelR;
 	private JComboBox cmbxDistincion;
 	private JTable tablaRest;
 	private DefaultTableModel dtm;
@@ -33,7 +39,6 @@ public class POConsultaRest extends JPanel {
 	public POConsultaRest() {
 		setSize(RESTA_ANCHO, RESTA_ALTO);
 		setLayout(null);
-		
 		JLabel lblConsulta = new JLabel("Consulta de Restaurantes");
 		lblConsulta.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		lblConsulta.setBounds(55, 48, 314, 34);
@@ -49,8 +54,10 @@ public class POConsultaRest extends JPanel {
 		lblRegion.setBounds(179, 149, 55, 21);
 		add(lblRegion);
 		
-		cmbxRegion = new JComboBox();
+		cmbxRegion = new JComboBox<String>();
+		cmbxModelR = new DefaultComboBoxModel<String>();
 		cmbxRegion.setBounds(259, 149, 174, 21);
+		cmbxRegion.setModel(cmbxModelR);
 		add(cmbxRegion);
 		
 		JLabel lblDistincion = new JLabel("Distinci\u00F3n:");
@@ -83,10 +90,7 @@ public class POConsultaRest extends JPanel {
 	
 	private void configurarTabla() {
 		dtm = new DefaultTableModel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 2449874173807205989L;
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -104,17 +108,17 @@ public class POConsultaRest extends JPanel {
 		
 	}
 	
-	public void rellenarTabla(ArrayList<Restaurante> lista) {
+	public void rellenarTabla(ArrayList<Restaurante> listaRestaurantes) {
 		dtm.setRowCount(0);
 		
 		Object[] fila = new Object[5];
 		
-		for (Restaurante res : lista) {
+		for (Restaurante res : listaRestaurantes) {
 			fila[0] = res.getNombre();
 			fila[1] = res.getCiudad();
-			fila[2] = res.getDistincion();
+			fila[2] = estrellas(res);
 			fila[3] = res.getCocina();
-			fila[4] = res.getPrecioMax();
+			fila[4] = precio(res);
 			
 			dtm.addRow(fila);
 			
@@ -122,8 +126,44 @@ public class POConsultaRest extends JPanel {
 		
 	}
 	
+	private Object estrellas(Restaurante res) {
+		int distincion = res.getDistincion();
+		String estrellas = null;
+		
+		if (distincion == 1) {
+			estrellas = "*";
+		} else if (distincion == 2) {
+			estrellas = "**";
+		} else if (distincion == 3) {
+			estrellas = "***";
+		}
+		
+		
+		return estrellas;
+	}
+
+	private Object precio(Restaurante res) {
+		Double precioMax = res.getPrecioMax();
+		Double precioMin = res.getPrecioMin();
+		
+		String precio = String.valueOf(precioMax) + " - " + String.valueOf(precioMin);
+		return precio;
+	}
+
 	public void mostrarTabla(boolean b) {
 		scrpTabla.setVisible(b);
+	}
+	
+	
+	public ArrayList<String> rellenarCmbx(){
+		
+		ArrayList<String> listaRegiones = new ArrayList<String>();
+		
+		cmbxModelR.addElement(REGION);
+		cmbxModelR.addAll(listaRegiones);
+	
+		return listaRegiones;
+		
 	}
 	
 	public void setControlador(RestaurantControl c) {

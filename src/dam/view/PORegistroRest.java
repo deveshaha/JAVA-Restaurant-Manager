@@ -7,6 +7,9 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import dam.control.RestaurantControl;
+
 import javax.swing.JButton;
 
 public class PORegistroRest extends JPanel {
@@ -147,5 +150,9 @@ public class PORegistroRest extends JPanel {
 		JButton btnLimpiar = new JButton("Limpiar Datos");
 		btnLimpiar.setBounds(533, 539, 119, 35);
 		add(btnLimpiar);
+	}
+	public void setControlador(RestaurantControl c) {
+		// TODO Auto-generated method stub
+		
 	}
 }
