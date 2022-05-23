@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dam.db.AccesoDB;
@@ -32,14 +33,14 @@ public class RestaurantePersistencia {
 		String query = "SELECT * FROM " + RestauranteContract.NOMBRE_TABLA;
 		
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			con = acceso.getConnection();
-			pstmt = con.prepareStatement(query);
+			stmt = con.createStatement();
 			
-			rs = pstmt.executeQuery();
+			rs = stmt.executeQuery(query);
 			
 			Restaurante rest;
 			
@@ -81,7 +82,7 @@ public class RestaurantePersistencia {
 			if (rs != null)
 				try {
 					rs.close();
-					if (pstmt != null) pstmt.close();
+					if (stmt != null) stmt.close();
 					if (con != null) con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -99,18 +100,18 @@ public class RestaurantePersistencia {
 		String query = "SELECT DISTINCT " + RestauranteContract.COLUMN_REGION + " FROM " + RestauranteContract.NOMBRE_TABLA;
 		
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			con  = acceso.getConnection();
 			con = acceso.getConnection();
-			pstmt = con.prepareStatement(query);
+			stmt = con.createStatement();
 			
-			rs = pstmt.executeQuery();
+			rs = stmt.executeQuery(query);
 			
 			while (rs.next()) {
-				listaRegiones.add(rs.getString(3));
+				listaRegiones.add(rs.getString(RestauranteContract.COLUMN_REGION));
 			}
 			
 			
@@ -118,10 +119,66 @@ public class RestaurantePersistencia {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+					if (stmt != null) stmt.close();
+					if (con != null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
 		}
 		
-		
+	System.out.println(listaRegiones);
 	return listaRegiones;
 	}
+
+	public int registrarUsuario(Restaurante restaurante) {
+		
+		int resultado = 0;
+		
+		String query = "INSERT INTO " + RestauranteContract.NOMBRE_TABLA + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			con = acceso.getConnection();
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, restaurante.getNombre());
+			pstmt.setString(2, restaurante.getRegion());
+			pstmt.setString(3, restaurante.getCiudad());
+			pstmt.setInt(4, restaurante.getDistincion());
+			pstmt.setString(5, restaurante.getDireccion());
+			pstmt.setDouble(6, restaurante.getPrecioMin());
+			pstmt.setDouble(7, restaurante.getPrecioMax());
+			pstmt.setString(8, restaurante.getCocina());
+			pstmt.setString(9, restaurante.getTelefono());
+			pstmt.setString(10, restaurante.getWeb());
+			
+			resultado = pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+				try {
+					
+				if (pstmt != null) pstmt.close();
+				if (con != null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		
+		return resultado;
+	}
+	
 
 }

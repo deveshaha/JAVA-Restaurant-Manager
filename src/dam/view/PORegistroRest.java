@@ -2,6 +2,8 @@ package dam.view;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -9,8 +11,11 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import dam.control.RestaurantControl;
+import dam.model.Restaurante;
+import dam.persistencia.RestauranteContract;
 
 import javax.swing.JButton;
+import javax.swing.DefaultComboBoxModel;
 
 public class PORegistroRest extends JPanel {
 
@@ -21,13 +26,18 @@ public class PORegistroRest extends JPanel {
 	private JTextField txtNombre;
 	private JTextField txtCocina;
 	private JTextField txtCiudad;
-	private JTextField textField;
-	private JComboBox comboBox;
+	private JTextField txtDireccion;
+	private JComboBox<String> cmbxRegiones;
 	private JSpinner spnDistincion;
 	private JTextField txtPrecioMinimo;
 	private JTextField txtPrecioMax;
 	private JTextField txtTelefono;
 	private JTextField txtWeb;
+	private JButton btnGuardar;
+	private JButton btnLimpiar;
+	
+	public static final String BTN_GUARDAR = "Guardar Datos";
+	public static final String BTN_LIMPIAR = "Limpiar Datos";
 	
 	
 	public PORegistroRest() {
@@ -55,7 +65,7 @@ public class PORegistroRest extends JPanel {
 		add(lblCocina);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(264, 139, 179, 20);
+		txtNombre.setBounds(229, 142, 225, 20);
 		add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -69,9 +79,10 @@ public class PORegistroRest extends JPanel {
 		lblRegion.setBounds(96, 220, 99, 21);
 		add(lblRegion);
 		
-		comboBox = new JComboBox();
-		comboBox.setBounds(229, 219, 179, 22);
-		add(comboBox);
+		cmbxRegiones = new JComboBox<String>();
+		cmbxRegiones.setModel(new DefaultComboBoxModel<String>(RestauranteContract.REGIONES));
+		cmbxRegiones.setBounds(229, 219, 179, 22);
+		add(cmbxRegiones);
 		
 		JLabel lblCiudad = new JLabel("Ciudad:");
 		lblCiudad.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -88,10 +99,10 @@ public class PORegistroRest extends JPanel {
 		lblDIreccion.setBounds(96, 304, 99, 21);
 		add(lblDIreccion);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(229, 304, 453, 20);
-		add(textField);
+		txtDireccion = new JTextField();
+		txtDireccion.setColumns(10);
+		txtDireccion.setBounds(229, 304, 453, 20);
+		add(txtDireccion);
 		
 		JLabel lblDistincion = new JLabel("Distincion:");
 		lblDistincion.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -99,7 +110,7 @@ public class PORegistroRest extends JPanel {
 		add(lblDistincion);
 		
 		spnDistincion = new JSpinner();
-		spnDistincion.setModel(new SpinnerNumberModel(1, 1, 5, 1));
+		spnDistincion.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		spnDistincion.setBounds(229, 379, 72, 20);
 		add(spnDistincion);
 		
@@ -143,16 +154,104 @@ public class PORegistroRest extends JPanel {
 		txtWeb.setBounds(582, 439, 357, 20);
 		add(txtWeb);
 		
-		JButton btnGuardar = new JButton("Guardar Datos");
+		btnGuardar = new JButton(BTN_GUARDAR);
 		btnGuardar.setBounds(372, 539, 119, 35);
 		add(btnGuardar);
 		
-		JButton btnLimpiar = new JButton("Limpiar Datos");
+		btnLimpiar = new JButton(BTN_LIMPIAR);
 		btnLimpiar.setBounds(533, 539, 119, 35);
 		add(btnLimpiar);
 	}
+	
+	public Restaurante registrarRestaurante() {
+		Restaurante restaurante = null;
+		
+		String telefono = "";
+		
+		String nombre = txtNombre.getText();
+		if (nombre.isBlank()) {
+			mostrarError("Debe introducir un nombre");
+		} else {
+			String cocina = txtCocina.getText();
+			if (cocina.isBlank()) {
+				mostrarError("Debe introducir un tipo de cocina");
+			} else {
+				String region = (String) cmbxRegiones.getSelectedItem();
+				String ciudad = txtCiudad.getText();
+				if (ciudad.isBlank()) {
+					mostrarError("Debe introducir una ciudad");
+				} else {
+					String direccion = txtDireccion.getText();
+					if (direccion.isBlank()) {
+						mostrarError("Debe introducir una direccion");
+					} else {
+						int distincion = (int) spnDistincion.getValue();
+						Double precioMin = getPrecio();
+						Double precioMax = getPrecio();
+
+						telefono = getTelefono();
+						
+						String web = txtWeb.getText();
+						
+						if (web.isBlank()) {
+							mostrarError("Debe introducir una pagina web");
+						} else {
+							restaurante = new Restaurante(nombre, region, ciudad, distincion, direccion, precioMin, precioMax, cocina, telefono, web);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		
+		return restaurante;
+	}
+	private String getTelefono() {
+		String telefono;
+		telefono = txtTelefono.getText();
+		
+		if (telefono.isBlank()) {
+			mostrarError("Debe introducir un teelfono");
+		} else if (!telefono.matches("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")) {
+			mostrarError("El numero de telefono no es correcto");
+		}
+		return telefono;
+	}
+	
+	private Double getPrecio() {
+		
+		
+		
+		
+		return 0.0;
+	}
+	
 	public void setControlador(RestaurantControl c) {
-		// TODO Auto-generated method stub
+		btnGuardar.addActionListener(c);
+		btnLimpiar.addActionListener(c);
+	}
+	
+	public void limpiarDatos() {
+		txtNombre.setText("");
+		txtCiudad.setText("");
+		txtCocina.setText("");
+		txtDireccion.setText("");
+		spnDistincion.setValue("1");
+		txtPrecioMax.setText("");
+		txtPrecioMinimo.setText("");
+		txtTelefono.setText("");
+		cmbxRegiones.setSelectedItem(0);
+		txtWeb.setText("");
+		
+	}
+	
+	public void mostrarError(String mensaje) {
+		JOptionPane.showMessageDialog(this , mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void mostrarInformacion(String mensaje) {
+		JOptionPane.showMessageDialog(this, mensaje, "Informacion", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 }

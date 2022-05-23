@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dam.control.RestaurantControl;
 import dam.model.Restaurante;
+import dam.persistencia.RestauranteContract;
 import dam.persistencia.RestaurantePersistencia;
 
 public class POConsultaRest extends JPanel {
@@ -30,7 +31,7 @@ public class POConsultaRest extends JPanel {
 	private JButton btnConsultar;
 	private JComboBox<String> cmbxRegion;
 	private DefaultComboBoxModel<String> cmbxModelR;
-	private JComboBox cmbxDistincion;
+	private JComboBox<String> cmbxDistincion;
 	private JTable tablaRest;
 	private DefaultTableModel dtm;
 	private JScrollPane scrpTabla;
@@ -65,7 +66,8 @@ public class POConsultaRest extends JPanel {
 		lblDistincion.setBounds(535, 150, 72, 22);
 		add(lblDistincion);
 		
-		cmbxDistincion = new JComboBox();
+		cmbxDistincion = new JComboBox<String>();
+		cmbxDistincion.setModel(new DefaultComboBoxModel<String>(RestauranteContract.DISTINCION));
 		cmbxDistincion.setBounds(617, 150, 174, 22);
 		add(cmbxDistincion);
 		
@@ -155,14 +157,12 @@ public class POConsultaRest extends JPanel {
 	}
 	
 	
-	public ArrayList<String> rellenarCmbx(){
+	public void rellenarCmbx(ArrayList<String> listaRegiones){
 		
-		ArrayList<String> listaRegiones = new ArrayList<String>();
-		
+		cmbxModelR.removeAllElements();
 		cmbxModelR.addElement(REGION);
 		cmbxModelR.addAll(listaRegiones);
 	
-		return listaRegiones;
 		
 	}
 	

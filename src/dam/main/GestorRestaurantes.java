@@ -28,7 +28,7 @@ public class GestorRestaurantes {
 				poConsulta.setControlador(rescon);
 				pORegistro.setControlador(rescon);
 				poModificar.setControlador(rescon);
-				
+			
 				vMain.hacerVisible();
 				
 				

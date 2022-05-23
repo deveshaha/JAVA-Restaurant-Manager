@@ -3,9 +3,7 @@ package dam.view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -15,7 +13,6 @@ import javax.swing.JScrollPane;
 import dam.control.RestaurantControl;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 
 public class VMain extends JFrame {
 	private static final long serialVersionUID = -3316608643557707196L;
