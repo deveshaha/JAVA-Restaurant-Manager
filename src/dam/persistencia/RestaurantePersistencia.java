@@ -186,6 +186,84 @@ public class RestaurantePersistencia {
 		
 		return resultado;
 	}
+
+	public ArrayList<Restaurante> filtrarTabla(int distincion, String region) {
+		ArrayList<Restaurante> listaFiltrada = new ArrayList<Restaurante>();
+		
+//		SELECT * FROM RESTAURANTES WHERE DISTINCION = 2 AND REGION LIKE '%Cataluña%';
+		
+		String query = "SELECT * FROM " + RestauranteContract.NOMBRE_TABLA;
+		
+		if (distincion != 0 && region.equals(POConsultaRest.TODAS)) {
+			query += "WHERE " + RestauranteContract.COLUMN_DISTIN + " =?";
+		} else if (distincion == 0 && !region.equals(POConsultaRest.TODAS)) {
+			query += "WHERE " + RestauranteContract.COLUMN_REGION + " =?";
+		} else if (distincion != 0 && !region.equals(POConsultaRest.TODAS)) {
+			query += "WHERE " + RestauranteContract.COLUMN_REGION + " =? AND " + RestauranteContract.COLUMN_DISTIN + " =?";
+		}
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = acceso.getConnection();
+			stmt = con.createStatement();
+			
+			rs = stmt.executeQuery(query);
+			
+			Restaurante rest;
+			
+			String nombre;
+			String region1;
+			String ciudad;
+			int distincion1;
+			String direccion;
+			double precioMin;
+			double precioMax;
+			String cocina;
+			String telefono;
+			String web;
+			
+			
+			while(rs.next()) {
+				nombre = rs.getString(2);
+				region1 = rs.getString(3);
+				ciudad = rs.getString(4);
+				distincion1 = rs.getInt(5);
+				direccion = rs.getString(6);
+				precioMin = rs.getDouble(7);
+				precioMax = rs.getDouble(8);
+				cocina = rs.getString(9);
+				telefono = rs.getString(10);
+				web = rs.getString(11);
+				
+				rest = new Restaurante(nombre, region1, ciudad, distincion1, direccion, precioMin, precioMax, cocina, telefono, web);
+				
+				listaFiltrada.add(rest);
+			}
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+					if (stmt != null) stmt.close();
+					if (con != null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+		}
+		
+		
+		return listaFiltrada;
+	}
+	
 	
 
 }
