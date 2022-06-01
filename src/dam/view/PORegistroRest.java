@@ -242,7 +242,7 @@ public class PORegistroRest extends JPanel {
 		
 		if (telefono.isBlank()) {
 			mostrarError("Debe introducir un teelfono");
-		} else if (!telefono.matches("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")) {
+		} else if (!telefono.matches("(\\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}")) {
 			mostrarError("El numero de telefono no es correcto");
 		}
 		return telefono;

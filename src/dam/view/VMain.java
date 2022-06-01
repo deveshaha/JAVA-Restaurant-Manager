@@ -18,7 +18,7 @@ public class VMain extends JFrame {
 	private static final long serialVersionUID = -3316608643557707196L;
 	
 	public static final int ANCHO = 1000;
-	public static final int ALTO = 800;
+	public static final int ALTO = 850;
 	
 	public static final String MNTM_CONSULTA = "Consulta de restaurantes";
 	public static final String MNTM_REGISTRO = "Registro de restaurantes";
