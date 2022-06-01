@@ -69,7 +69,6 @@ public class RestaurantControl implements ActionListener {
 				poRegistroRest.limpiarDatos();
 				
 			} else if (e.getActionCommand().equals(POConsultaRest.BTN_ELIMINAR)) {
-				
 				borrarRestaurante();
 				
 			} else if (e.getActionCommand().equals(POModificarRest.BTN_BUSCAR)) {

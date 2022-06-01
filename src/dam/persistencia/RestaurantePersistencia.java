@@ -199,7 +199,7 @@ public class RestaurantePersistencia {
 		} else if (distincion == 0 && !region.equals(POConsultaRest.TODAS)) {
 			query += " WHERE " + RestauranteContract.COLUMN_REGION + " = ?";
 		} else if (distincion != 0 && !region.equals(POConsultaRest.TODAS)) {
-			query += " WHERE " + RestauranteContract.COLUMN_REGION + " = ? AND " + RestauranteContract.COLUMN_DISTIN + " = ?";
+			query += " WHERE " + RestauranteContract.COLUMN_DISTIN + " = ? " + " AND " + RestauranteContract.COLUMN_REGION + " = ?";
 		}
 		
 		Connection con = null;
