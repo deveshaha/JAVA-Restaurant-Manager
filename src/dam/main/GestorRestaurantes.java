@@ -30,8 +30,6 @@ public class GestorRestaurantes {
 				poModificar.setControlador(rescon);
 			
 				vMain.hacerVisible();
-				
-				
 			}
 		});
 	}
