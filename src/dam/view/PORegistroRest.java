@@ -24,7 +24,6 @@ public class PORegistroRest extends JPanel {
 	private static final int RESTA_ANCHO = VMain.ANCHO -15;
 	private static final int RESTA_ALTO = VMain.ALTO -15;
 	private JTextField txtNombre;
-	private JTextField txtCocina;
 	private JTextField txtCiudad;
 	private JTextField txtDireccion;
 	private JComboBox<String> cmbxRegiones;
@@ -38,6 +37,7 @@ public class PORegistroRest extends JPanel {
 	
 	public static final String BTN_GUARDAR = "Guardar Datos";
 	public static final String BTN_LIMPIAR = "Limpiar Datos";
+	private JComboBox<String> cmbxCocina;
 	
 	
 	public PORegistroRest() {
@@ -68,11 +68,6 @@ public class PORegistroRest extends JPanel {
 		txtNombre.setBounds(229, 142, 225, 20);
 		add(txtNombre);
 		txtNombre.setColumns(10);
-		
-		txtCocina = new JTextField();
-		txtCocina.setColumns(10);
-		txtCocina.setBounds(707, 139, 179, 20);
-		add(txtCocina);
 		
 		JLabel lblRegion = new JLabel("Regi\u00F3n:");
 		lblRegion.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -161,6 +156,10 @@ public class PORegistroRest extends JPanel {
 		btnLimpiar = new JButton(BTN_LIMPIAR);
 		btnLimpiar.setBounds(533, 539, 119, 35);
 		add(btnLimpiar);
+		
+		cmbxCocina = new JComboBox<String>(RestauranteContract.COCINA);
+		cmbxCocina.setBounds(621, 141, 210, 22);
+		add(cmbxCocina);
 	}
 	
 	public Restaurante registrarRestaurante() {
@@ -173,7 +172,7 @@ public class PORegistroRest extends JPanel {
 			mostrarError("Debe introducir un nombre");
 		} else {
 //			String cocina = getCocina();
-			String cocina = txtCocina.getText();
+			String cocina = (String) cmbxCocina.getSelectedItem();
 			String region = (String) cmbxRegiones.getSelectedItem();
 			String ciudad = txtCiudad.getText();
 			if (ciudad.isBlank()) {
@@ -204,26 +203,7 @@ public class PORegistroRest extends JPanel {
 		}
 		return restaurante;
 	}
-	
-	private String getCocina() {
 		
-		//TODO: Revisar
-		
-		String cocina = txtCocina.getText().toUpperCase();
-		if (cocina.isBlank()) {
-			mostrarError("Debe introducir un tipo de cocina");
-		} else {
-			for (int i = 0; i <  RestauranteContract.COCINA.length; i++) {
-				if (!cocina.equals(RestauranteContract.COCINA[i].toUpperCase())) {
-					mostrarError("El tipo de cocina debe ser: Creativa, Moderna, Tradicional, Regional, Fusión");
-				}
-			}
-		}
-		
-		return cocina;
-	}
-	
-	
 	private double getPrecio() {
 		String precioMin;
 		precioMin = txtPrecioMinimo.getText();
@@ -257,7 +237,7 @@ public class PORegistroRest extends JPanel {
 	public void limpiarDatos() {
 		txtNombre.setText("");
 		txtCiudad.setText("");
-		txtCocina.setText("");
+		cmbxCocina.setSelectedIndex(0);
 		txtDireccion.setText("");
 		spnDistincion.setValue(1);
 		txtPrecioMax.setText("");
