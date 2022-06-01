@@ -39,6 +39,7 @@ public class RestaurantControl implements ActionListener {
 		
 		if (e.getSource() instanceof JMenuItem) {
 			if (e.getActionCommand().equals(VMain.MNTM_CONSULTA)) {
+				poConsultaRest.rellenarCmbx(persistencia.regionCmbx());
 				vMain.cargarPanel(poConsultaRest);
 				
 			} else if (e.getActionCommand().equals(VMain.MNTM_REGISTRO)) {
@@ -60,7 +61,6 @@ public class RestaurantControl implements ActionListener {
 				listaRestaurantes = persistencia.consultarTabla();
 				poConsultaRest.rellenarTabla(listaRestaurantes);
 				poConsultaRest.mostrarTabla(true);
-				System.out.println(persistencia.regionCmbx());
 				
 			} else if (e.getActionCommand().equals(PORegistroRest.BTN_GUARDAR)) {
 				realizarRegistro();
@@ -82,6 +82,7 @@ public class RestaurantControl implements ActionListener {
 			
 			if (res == 1) {
 				poRegistroRest.mostrarInformacion("Registro Exitoso");
+				poRegistroRest.limpiarDatos();
 			} else {
 				poRegistroRest.mostrarError("No se ha podido registrar el restaurante");
 			}

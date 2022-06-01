@@ -25,12 +25,12 @@ public class POConsultaRest extends JPanel {
 	
 	public static final String BTN_CONSULTAR = "CONSULTAR";
 	public static final String BTN_ELIMINAR = "ELIMINAR";
-	public static final String REGION = "TODAS";
+	public static final String TODAS = "TODAS";
 	
 	
 	private JButton btnConsultar;
 	private JComboBox<String> cmbxRegion;
-	private DefaultComboBoxModel<String> cmbxModelR;
+	private DefaultComboBoxModel<String> cmbxModel;
 	private JComboBox<String> cmbxDistincion;
 	private JTable tablaRest;
 	private DefaultTableModel dtm;
@@ -38,8 +38,16 @@ public class POConsultaRest extends JPanel {
 	private JButton btnEliminar;
 	
 	public POConsultaRest() {
+		
+		initComponents();
+		
+	}
+
+	private void initComponents() {
+		
 		setSize(RESTA_ANCHO, RESTA_ALTO);
 		setLayout(null);
+		
 		JLabel lblConsulta = new JLabel("Consulta de Restaurantes");
 		lblConsulta.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		lblConsulta.setBounds(55, 48, 314, 34);
@@ -56,9 +64,9 @@ public class POConsultaRest extends JPanel {
 		add(lblRegion);
 		
 		cmbxRegion = new JComboBox<String>();
-		cmbxModelR = new DefaultComboBoxModel<String>(RestauranteContract.REGIONES);
+		cmbxModel = new DefaultComboBoxModel<String>();
 		cmbxRegion.setBounds(259, 149, 174, 21);
-		cmbxRegion.setModel(cmbxModelR);
+		cmbxRegion.setModel(cmbxModel);
 		add(cmbxRegion);
 		
 		JLabel lblDistincion = new JLabel("Distinci\u00F3n:");
@@ -87,7 +95,6 @@ public class POConsultaRest extends JPanel {
 		add(btnEliminar);
 		
 		configurarTabla();
-		
 	}
 	
 	private void configurarTabla() {
@@ -158,12 +165,16 @@ public class POConsultaRest extends JPanel {
 	
 	
 	public void rellenarCmbx(ArrayList<String> listaRegiones){
-		cmbxModelR.removeAllElements();
-		cmbxModelR.addElement(REGION);
-		cmbxModelR.addAll(listaRegiones);
-	
+		cmbxModel.removeAllElements();
+		cmbxModel.addElement(TODAS);	
+		cmbxModel.addAll(listaRegiones);
 		
 	}
+	
+	public JComboBox<String> getCmbxRegion(){
+		return cmbxRegion;
+	}
+	
 	
 	public void setControlador(RestaurantControl c) {
 		btnConsultar.addActionListener(c);
