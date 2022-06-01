@@ -31,6 +31,7 @@ public class VMain extends JFrame {
 	private JScrollPane scrpContenedor;
 	private JMenuItem mntmModificacion;
 	private JMenu mnMantenimiento;
+	private JMenuItem mntmSalir;
 	
 	
 	public VMain() {
@@ -53,7 +54,7 @@ public class VMain extends JFrame {
 		mntmModificacion = new JMenuItem(MNTM_MODIFCACION);
 		mnMantenimiento.add(mntmModificacion);
 		
-		JMenuItem mntmSalir = new JMenuItem(MN_SALIR);
+		mntmSalir = new JMenuItem(MN_SALIR);
 		menuBar.add(mntmSalir);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -93,7 +94,8 @@ public class VMain extends JFrame {
 		mntmConsulta.addActionListener(c);
 		mntmModificacion.addActionListener(c);
 		mntmRegistro.addActionListener(c);
-		
+		mntmSalir.addActionListener(c);
+
 		mnMantenimiento.addActionListener(c);
 	}
 }
