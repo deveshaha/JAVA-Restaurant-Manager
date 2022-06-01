@@ -241,7 +241,7 @@ public class PORegistroRest extends JPanel {
 		telefono = txtTelefono.getText();
 		
 		if (telefono.isBlank()) {
-			mostrarError("Debe introducir un teelfono");
+			mostrarError("Debe introducir un telfono");
 		} else if (!telefono.matches("(\\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}")) {
 			mostrarError("El numero de telefono no es correcto");
 		}

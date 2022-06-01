@@ -175,6 +175,10 @@ public class POConsultaRest extends JPanel {
 		return cmbxRegion;
 	}
 	
+//	public Restaurante seleccion() {
+//		//TODO: Hacer metodo para la seleccion de la tabla.
+//	}
+	
 	
 	public void setControlador(RestaurantControl c) {
 		btnConsultar.addActionListener(c);
