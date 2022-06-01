@@ -131,15 +131,14 @@ public class RestaurantePersistencia {
 
 		}
 		
-	System.out.println(listaRegiones);
 	return listaRegiones;
 	}
 
-	public int registrarUsuario(Restaurante restaurante) {
+	public int registrarRestaurante(Restaurante restaurante) {
 		
 		int resultado = 0;
 		
-		String query = "INSERT INTO " + RestauranteContract.NOMBRE_TABLA + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO " + RestauranteContract.NOMBRE_TABLA + " VALUES(?,?,?,?,?,?,?,?,?,?)";
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -149,16 +148,16 @@ public class RestaurantePersistencia {
 			con = acceso.getConnection();
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setString(1, restaurante.getNombre());
-			pstmt.setString(2, restaurante.getRegion());
-			pstmt.setString(3, restaurante.getCiudad());
-			pstmt.setInt(4, restaurante.getDistincion());
-			pstmt.setString(5, restaurante.getDireccion());
-			pstmt.setDouble(6, restaurante.getPrecioMin());
-			pstmt.setDouble(7, restaurante.getPrecioMax());
-			pstmt.setString(8, restaurante.getCocina());
-			pstmt.setString(9, restaurante.getTelefono());
-			pstmt.setString(10, restaurante.getWeb());
+			pstmt.setString(2, restaurante.getNombre());
+			pstmt.setString(3, restaurante.getRegion());
+			pstmt.setString(4, restaurante.getCiudad());
+			pstmt.setInt(5, restaurante.getDistincion());
+			pstmt.setString(6, restaurante.getDireccion());
+			pstmt.setDouble(7, restaurante.getPrecioMin());
+			pstmt.setDouble(8, restaurante.getPrecioMax());
+			pstmt.setString(9, restaurante.getCocina());
+			pstmt.setString(10, restaurante.getTelefono());
+			pstmt.setString(11, restaurante.getWeb());
 			
 			resultado = pstmt.executeUpdate();
 			

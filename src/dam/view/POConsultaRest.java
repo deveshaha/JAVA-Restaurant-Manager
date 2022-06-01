@@ -3,7 +3,6 @@ package dam.view;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import dam.control.RestaurantControl;
 import dam.model.Restaurante;
 import dam.persistencia.RestauranteContract;
-import dam.persistencia.RestaurantePersistencia;
 
 public class POConsultaRest extends JPanel {
 	private static final long serialVersionUID = -5098459323820994656L;
@@ -26,7 +24,9 @@ public class POConsultaRest extends JPanel {
 	private static final int RESTA_ALTO = VMain.ALTO -15;
 	
 	public static final String BTN_CONSULTAR = "CONSULTAR";
+	public static final String BTN_ELIMINAR = "ELIMINAR";
 	public static final String REGION = "TODAS";
+	
 	
 	private JButton btnConsultar;
 	private JComboBox<String> cmbxRegion;
@@ -56,7 +56,7 @@ public class POConsultaRest extends JPanel {
 		add(lblRegion);
 		
 		cmbxRegion = new JComboBox<String>();
-		cmbxModelR = new DefaultComboBoxModel<String>();
+		cmbxModelR = new DefaultComboBoxModel<String>(RestauranteContract.REGIONES);
 		cmbxRegion.setBounds(259, 149, 174, 21);
 		cmbxRegion.setModel(cmbxModelR);
 		add(cmbxRegion);
@@ -158,7 +158,6 @@ public class POConsultaRest extends JPanel {
 	
 	
 	public void rellenarCmbx(ArrayList<String> listaRegiones){
-		
 		cmbxModelR.removeAllElements();
 		cmbxModelR.addElement(REGION);
 		cmbxModelR.addAll(listaRegiones);

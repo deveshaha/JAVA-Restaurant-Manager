@@ -60,10 +60,14 @@ public class RestaurantControl implements ActionListener {
 				listaRestaurantes = persistencia.consultarTabla();
 				poConsultaRest.rellenarTabla(listaRestaurantes);
 				poConsultaRest.mostrarTabla(true);
+				System.out.println(persistencia.regionCmbx());
+				
 			} else if (e.getActionCommand().equals(PORegistroRest.BTN_GUARDAR)) {
 				realizarRegistro();
 			} else if (e.getActionCommand().equals(PORegistroRest.BTN_LIMPIAR)) {
 				poRegistroRest.limpiarDatos();
+			} else if (e.getActionCommand().equals(POConsultaRest.BTN_ELIMINAR)) {
+				
 			}
 		}
 		
@@ -73,15 +77,15 @@ public class RestaurantControl implements ActionListener {
 		Restaurante restaurante = poRegistroRest.registrarRestaurante();
 		
 		if (restaurante != null) {
-			System.out.println("test");
-		} else {
-			int res = persistencia.registrarUsuario(restaurante);
+			
+			int res = persistencia.registrarRestaurante(restaurante);
 			
 			if (res == 1) {
 				poRegistroRest.mostrarInformacion("Registro Exitoso");
 			} else {
 				poRegistroRest.mostrarError("No se ha podido registrar el restaurante");
 			}
+			
 		}
 		
 	}

@@ -172,41 +172,70 @@ public class PORegistroRest extends JPanel {
 		if (nombre.isBlank()) {
 			mostrarError("Debe introducir un nombre");
 		} else {
+//			String cocina = getCocina();
 			String cocina = txtCocina.getText();
-			if (cocina.isBlank()) {
-				mostrarError("Debe introducir un tipo de cocina");
+			String region = (String) cmbxRegiones.getSelectedItem();
+			String ciudad = txtCiudad.getText();
+			if (ciudad.isBlank()) {
+				mostrarError("Debe introducir una ciudad");
 			} else {
-				String region = (String) cmbxRegiones.getSelectedItem();
-				String ciudad = txtCiudad.getText();
-				if (ciudad.isBlank()) {
-					mostrarError("Debe introducir una ciudad");
+				String direccion = txtDireccion.getText();
+				if (direccion.isBlank()) {
+					mostrarError("Debe introducir una direccion");
 				} else {
-					String direccion = txtDireccion.getText();
-					if (direccion.isBlank()) {
-						mostrarError("Debe introducir una direccion");
-					} else {
-						int distincion = (int) spnDistincion.getValue();
-						Double precioMin = getPrecio();
-						Double precioMax = getPrecio();
+					int distincion = (int) spnDistincion.getValue();
+					double precioMin;
+					
+					precioMin = getPrecio();
+					
+					double precioMax = getPrecio();
 
-						telefono = getTelefono();
-						
-						String web = txtWeb.getText();
-						
-						if (web.isBlank()) {
-							mostrarError("Debe introducir una pagina web");
-						} else {
-							restaurante = new Restaurante(nombre, region, ciudad, distincion, direccion, precioMin, precioMax, cocina, telefono, web);
-						}
+					telefono = getTelefono();
+					
+					String web = txtWeb.getText();
+					
+					if (web.isBlank()) {
+						mostrarError("Debe introducir una pagina web");
+					} else {
+						restaurante = new Restaurante(nombre, region, ciudad, distincion, direccion, precioMin, precioMax, cocina, telefono, web);
 					}
 				}
 			}
 		}
-		
-		
-		
 		return restaurante;
 	}
+	
+	private String getCocina() {
+		
+		//TODO: Revisar
+		
+		String cocina = txtCocina.getText().toUpperCase();
+		if (cocina.isBlank()) {
+			mostrarError("Debe introducir un tipo de cocina");
+		} else {
+			for (int i = 0; i <  RestauranteContract.COCINA.length; i++) {
+				if (!cocina.equals(RestauranteContract.COCINA[i].toUpperCase())) {
+					mostrarError("El tipo de cocina debe ser: Creativa, Moderna, Tradicional, Regional, Fusión");
+				}
+			}
+		}
+		
+		return cocina;
+	}
+	
+	
+	private double getPrecio() {
+		String precioMin;
+		precioMin = txtPrecioMinimo.getText();
+		
+		if (precioMin.isBlank()) {
+			mostrarError("El campo Precio no puede estar vacio");
+		} else if (!precioMin.matches(".*[0-9].*")) {
+			mostrarError("El precio debe de ser en numeros decimales");
+		}
+		return Double.parseDouble(precioMin);
+	}
+	
 	private String getTelefono() {
 		String telefono;
 		telefono = txtTelefono.getText();
@@ -219,13 +248,6 @@ public class PORegistroRest extends JPanel {
 		return telefono;
 	}
 	
-	private Double getPrecio() {
-		
-		
-		
-		
-		return 0.0;
-	}
 	
 	public void setControlador(RestaurantControl c) {
 		btnGuardar.addActionListener(c);
@@ -237,7 +259,7 @@ public class PORegistroRest extends JPanel {
 		txtCiudad.setText("");
 		txtCocina.setText("");
 		txtDireccion.setText("");
-		spnDistincion.setValue("1");
+		spnDistincion.setValue(1);
 		txtPrecioMax.setText("");
 		txtPrecioMinimo.setText("");
 		txtTelefono.setText("");
