@@ -274,7 +274,159 @@ public class RestaurantePersistencia {
 		
 		return listaFiltrada;
 	}
-	
+
+	public Restaurante buscarRest(String nombreRest) {
+		
+		//SELECT * FROM RESTAURANTES WHERE NOMBRE = 'testy';
+		
+		String query = "SELECT * FROM " + RestauranteContract.NOMBRE_TABLA + " WHERE " + RestauranteContract.COLUMN_NOMBRE + " LIKE ?";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		Restaurante rest = null;
+		
+		try {
+			con = acceso.getConnection();
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, nombreRest);
+			
+			rs = pstmt.executeQuery();
+			
+
+			
+			String nombre;
+			String region1;
+			String ciudad;
+			int distincion1;
+			String direccion;
+			double precioMin;
+			double precioMax;
+			String cocina;
+			String telefono;
+			String web;
+			
+			while(rs.next()) {
+				nombre = rs.getString(2);
+				region1 = rs.getString(3);
+				ciudad = rs.getString(4);
+				distincion1 = rs.getInt(5);
+				direccion = rs.getString(6);
+				precioMin = rs.getDouble(7);
+				precioMax = rs.getDouble(8);
+				cocina = rs.getString(9);
+				telefono = rs.getString(10);
+				web = rs.getString(11);
+				
+				rest = new Restaurante(nombre, region1, ciudad, distincion1, direccion, precioMin, precioMax, cocina, telefono, web);
+				
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+					if (rs != null) rs.close();
+					if (pstmt != null) pstmt.close();
+					if (con != null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+		}
+		
+		return rest;
+	}
+
+	public int modificarRestaurante(Restaurante restaurante) {
+		int resultado = 0;
+		
+		String query = "UPDATE " + RestauranteContract.NOMBRE_TABLA + " SET " + RestauranteContract.COLUMN_REGION + " =?, " +
+				  RestauranteContract.COLUMN_CIUDAD + " =?, " + RestauranteContract.COLUMN_DISTIN + " =?, " +
+				  RestauranteContract.COLUMN_DIREC + " =?, " + RestauranteContract.COLUMN_PREC_MIN + " =?, " +
+				  RestauranteContract.COLUMN_PREC_MAX + " =?, " + RestauranteContract.COLUMN_COCINA + " =?," +
+				  RestauranteContract.COLUMN_TELEF + " =?," + RestauranteContract.COLUMN_WEB +
+				  " =? WHERE " + RestauranteContract.COLUMN_NOMBRE + " =?";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = acceso.getConnection();
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, restaurante.getRegion());
+			pstmt.setString(2, restaurante.getCiudad());
+			pstmt.setInt(3, restaurante.getDistincion());
+			pstmt.setString(4, restaurante.getDireccion());
+			pstmt.setDouble(5, restaurante.getPrecioMin());
+			pstmt.setDouble(6, restaurante.getPrecioMax());
+			pstmt.setString(7, restaurante.getCocina());
+			pstmt.setString(8, restaurante.getTelefono());
+			pstmt.setString(9, restaurante.getWeb());
+			pstmt.setString(10, restaurante.getNombre());
+			
+			resultado = pstmt.executeUpdate();
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				
+			if (pstmt != null) pstmt.close();
+			if (con != null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return resultado;
+	}
+
+	public int borrarRestaurante(String nombre) {
+		
+		int resultado = 0;
+		
+		String query = "DELETE FROM " + RestauranteContract.NOMBRE_TABLA + " WHERE " + RestauranteContract.COLUMN_NOMBRE + " =?";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = acceso.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, nombre);
+			
+			resultado = pstmt.executeUpdate();
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				
+			if (pstmt != null) pstmt.close();
+			if (con != null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultado;
+	}
 	
 
 }

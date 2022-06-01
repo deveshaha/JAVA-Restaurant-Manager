@@ -35,7 +35,7 @@ public class PORegistroRest extends JPanel {
 	private JButton btnGuardar;
 	private JButton btnLimpiar;
 	
-	public static final String BTN_GUARDAR = "Guardar Datos";
+	public static final String BTN_GUARDAR = "Guardar";
 	public static final String BTN_LIMPIAR = "Limpiar Datos";
 	private JComboBox<String> cmbxCocina;
 	
@@ -86,7 +86,7 @@ public class PORegistroRest extends JPanel {
 		
 		txtCiudad = new JTextField();
 		txtCiudad.setColumns(10);
-		txtCiudad.setBounds(707, 223, 179, 20);
+		txtCiudad.setBounds(621, 229, 179, 20);
 		add(txtCiudad);
 		
 		JLabel lblDIreccion = new JLabel("Direccion: ");
@@ -157,7 +157,7 @@ public class PORegistroRest extends JPanel {
 		btnLimpiar.setBounds(533, 539, 119, 35);
 		add(btnLimpiar);
 		
-		cmbxCocina = new JComboBox<String>(RestauranteContract.COCINA);
+		cmbxCocina = new JComboBox<String>(new DefaultComboBoxModel<String>(RestauranteContract.COCINA));
 		cmbxCocina.setBounds(621, 141, 210, 22);
 		add(cmbxCocina);
 	}

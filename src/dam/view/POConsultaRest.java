@@ -36,6 +36,7 @@ public class POConsultaRest extends JPanel {
 	private DefaultTableModel dtm;
 	private JScrollPane scrpTabla;
 	private JButton btnEliminar;
+	private ArrayList<Restaurante> datosTabla;
 	
 	public POConsultaRest() {
 		
@@ -118,6 +119,7 @@ public class POConsultaRest extends JPanel {
 	}
 	
 	public void rellenarTabla(ArrayList<Restaurante> listaRestaurantes) {
+		datosTabla = listaRestaurantes;
 		dtm.setRowCount(0);
 		
 		Object[] fila = new Object[5];
@@ -175,13 +177,29 @@ public class POConsultaRest extends JPanel {
 		return cmbxRegion;
 	}
 	
-//	public Restaurante seleccion() {
-//		//TODO: Hacer metodo para la seleccion de la tabla.
-//	}
+	public JComboBox<String> getCmbxDist(){
+		return cmbxDistincion;
+	}
 	
 	
 	public void setControlador(RestaurantControl c) {
 		btnConsultar.addActionListener(c);
 		btnEliminar.addActionListener(c);
+	}
+
+	public Restaurante seleccionarRest() {
+		
+		Restaurante rest = null;
+		
+		int pos = tablaRest.getSelectedRow();
+		
+		if (pos >= 0) {
+			rest = datosTabla.get(pos);
+		} else {
+			rest = null;
+		}
+		
+		
+		return rest;
 	}
 }
