@@ -41,6 +41,7 @@ public class RestaurantControl implements ActionListener {
 			if (e.getActionCommand().equals(VMain.MNTM_CONSULTA)) {
 				poConsultaRest.rellenarCmbx(persistencia.regionCmbx());
 				vMain.cargarPanel(poConsultaRest);
+				poConsultaRest.mostrarTabla(false);
 				
 			} else if (e.getActionCommand().equals(VMain.MNTM_REGISTRO)) {
 				vMain.cargarPanel(poRegistroRest);
@@ -62,6 +63,8 @@ public class RestaurantControl implements ActionListener {
 				poConsultaRest.rellenarTabla(listaRestaurantes);
 				poConsultaRest.mostrarTabla(true);
 				
+				mostrarRestaurante();
+				
 			} else if (e.getActionCommand().equals(PORegistroRest.BTN_GUARDAR)) {
 				realizarRegistro();
 			} else if (e.getActionCommand().equals(PORegistroRest.BTN_LIMPIAR)) {
@@ -72,6 +75,25 @@ public class RestaurantControl implements ActionListener {
 			}
 		}
 		
+	}
+
+	private void mostrarRestaurante() {
+		
+		if (poConsultaRest.getCmbxRegion().getSelectedIndex() == 0 && poConsultaRest.getCmbxDist().getSelectedIndex() == 0) {
+			listaRestaurantes = persistencia.consultarTabla();
+		} else if (poConsultaRest.getCmbxRegion().getSelectedIndex() == 0 || poConsultaRest.getCmbxDist().getSelectedIndex() == 0) {
+			listaRestaurantes = persistencia.filtrarTabla(poConsultaRest.getCmbxDist().getSelectedIndex(), (String) poConsultaRest.getCmbxRegion().getSelectedItem());
+		} else {
+			listaRestaurantes = persistencia.filtrarTabla(poConsultaRest.getCmbxDist().getSelectedIndex(), (String) poConsultaRest.getCmbxRegion().getSelectedItem());
+		}
+		
+		if (listaRestaurantes.isEmpty()) {
+			poConsultaRest.mostrarTabla(false);
+			poRegistroRest.mostrarError("Error: no hay resultados con esos filtros");
+		} else {
+			poConsultaRest.rellenarTabla(listaRestaurantes);
+			poConsultaRest.mostrarTabla(true);
+		}
 	}
 
 	private void realizarRegistro() {

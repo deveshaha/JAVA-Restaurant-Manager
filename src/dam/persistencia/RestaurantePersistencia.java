@@ -190,27 +190,37 @@ public class RestaurantePersistencia {
 	public ArrayList<Restaurante> filtrarTabla(int distincion, String region) {
 		ArrayList<Restaurante> listaFiltrada = new ArrayList<Restaurante>();
 		
-//		SELECT * FROM RESTAURANTES WHERE DISTINCION = 2 AND REGION LIKE '%Cataluña%';
+//		SELECT * FROM RESTAURANTES WHERE DISTINCION = 2 AND REGION = 'Cataluña';
 		
 		String query = "SELECT * FROM " + RestauranteContract.NOMBRE_TABLA;
 		
 		if (distincion != 0 && region.equals(POConsultaRest.TODAS)) {
-			query += "WHERE " + RestauranteContract.COLUMN_DISTIN + " =?";
+			query += " WHERE " + RestauranteContract.COLUMN_DISTIN + " = ?";
 		} else if (distincion == 0 && !region.equals(POConsultaRest.TODAS)) {
-			query += "WHERE " + RestauranteContract.COLUMN_REGION + " =?";
+			query += " WHERE " + RestauranteContract.COLUMN_REGION + " = ?";
 		} else if (distincion != 0 && !region.equals(POConsultaRest.TODAS)) {
-			query += "WHERE " + RestauranteContract.COLUMN_REGION + " =? AND " + RestauranteContract.COLUMN_DISTIN + " =?";
+			query += " WHERE " + RestauranteContract.COLUMN_REGION + " = ? AND " + RestauranteContract.COLUMN_DISTIN + " = ?";
 		}
 		
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			con = acceso.getConnection();
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
 			
-			rs = stmt.executeQuery(query);
+			
+			if (distincion !=0 && region.equals(POConsultaRest.TODAS)) {
+				pstmt.setInt(1, distincion);
+			} else if (distincion == 0 && !region.equals(POConsultaRest.TODAS)) {
+				pstmt.setString(1, region);
+			} else if (distincion != 0 && !region.equals(POConsultaRest.TODAS)) {
+				pstmt.setInt(1, distincion);
+				pstmt.setString(1, region);
+			}
+			
+			rs = pstmt.executeQuery();
 			
 			Restaurante rest;
 			
@@ -252,7 +262,8 @@ public class RestaurantePersistencia {
 			if (rs != null)
 				try {
 					rs.close();
-					if (stmt != null) stmt.close();
+					if (rs != null) rs.close();
+					if (pstmt != null) pstmt.close();
 					if (con != null) con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
