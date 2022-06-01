@@ -60,6 +60,8 @@ public class VMain extends JFrame {
 		scrpContenedor = new JScrollPane();
 		getContentPane().add(scrpContenedor, BorderLayout.CENTER);
 		
+		
+		
 //		Container frame = new Container();
 //		frame.add(new JLabel(new ImageIcon("/Actividad UF10_2(Guia Michellin)/img/logo.png")));
 		
